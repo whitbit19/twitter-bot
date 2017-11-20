@@ -6,6 +6,6 @@ api = twitter.Api(
     access_token_key=os.environ['TWITTER_ACCESS_TOKEN_KEY'],
     access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
 
-statuses = api.GetUserTimeline(screen_name='whitbit_')
+statuses = api.GetUserTimeline(screen_name='realDonaldTrump')
 
 print [s.text for s in statuses]
