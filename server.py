@@ -11,6 +11,8 @@ app = Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
+tweets = {}
+
 @app.route('/')
 def index():
 
@@ -22,27 +24,29 @@ def searches_user():
 
     username = request.args.get('username')
 
-    tweets = {}
-
-    tweets[username] = []
-
     tweets['username'] = username
 
     try:
         statuses = api.GetUserTimeline(screen_name=username,
                                        include_rts=False,
                                        count=200)
+        
         text = ' '.join([s.text for s in statuses])
 
         chains = markov.make_chains(text, 3)
 
         random_text = markov.make_text(chains, 3)
 
+        tweets.setdefault(username, [])
+
         tweets[username].append(random_text)
+
+        print tweets[username]
 
     
     except twitter.TwitterError:
         tweets[username] = ['Please enter a valid public user!']
+        print tweets[username]
 
     return jsonify(tweets)
 

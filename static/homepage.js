@@ -1,6 +1,7 @@
 $('#user-search').on('submit', findsUser)
 
 function findsUser(evt) {
+
     evt.preventDefault();
 
     var formInputs = {
@@ -17,9 +18,10 @@ function generatesTweets(results) {
 
     var tweets = results[user];
 
-    for(var i = 0; i < tweets.length; i++) {
+    $('#tweets').empty();
+
+    for(var i = tweets.length-1; i > -1; i--) {
         $('#tweets').append('<li>' + tweets[i] + '</li>')
     }
-
 }
 
