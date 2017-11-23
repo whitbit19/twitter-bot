@@ -6,10 +6,6 @@ def make_chains(text_string, n):
 
     words = text_string.split()
 
-    if n > len(words):
-        print 'Length of n cannot be greater than text string length.'
-        sys.exit()
-
     for i in range(len(words) - n):
 
         key = tuple(words[i: n + i])

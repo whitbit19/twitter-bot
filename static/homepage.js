@@ -5,7 +5,8 @@ function findsUser(evt) {
     evt.preventDefault();
 
     var formInputs = {
-        'username': $('#username').val()
+        'username': $('#username').val(),
+        'chain-size': parseInt($('#chain-size').val())
     };
 
     $.get('/search_user.json', formInputs, generatesTweets);
@@ -21,7 +22,7 @@ function generatesTweets(results) {
     $('#tweets').empty();
 
     for(var i = tweets.length-1; i > -1; i--) {
-        $('#tweets').append('<li>' + tweets[i] + '</li>')
+        $('#tweets').append('<li class="list-group-item">' + tweets[i] + '</li>')
     }
 }
 

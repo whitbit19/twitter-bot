@@ -11,18 +11,27 @@ app = Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
+#cache tweets with a dict as long as server is not reset
 tweets = {}
 
 @app.route('/')
 def index():
-
+    """Renders username input form and tweets."""
     return render_template('/homepage.html')
 
 
 @app.route('/search_user.json')
 def searches_user():
+    """Gets username input and generates tweet via Markov chains.
+    
+    Validates twitter user: if user is not private, does not exist,
+    or does not have enough tweets.
+
+    """
 
     username = request.args.get('username')
+    
+    size = int(request.args.get('chain-size'))
 
     tweets['username'] = username
 
@@ -33,20 +42,22 @@ def searches_user():
         
         text = ' '.join([s.text for s in statuses])
 
-        chains = markov.make_chains(text, 3)
+        if len(text) < size:
+            tweets[username] = ['Invalid user! User is either not public \
+                               or does not have enough tweets.']
+        
+        else:
+            chains = markov.make_chains(text, size)
 
-        random_text = markov.make_text(chains, 3)
+            random_text = markov.make_text(chains, size)
 
-        tweets.setdefault(username, [])
+            tweets.setdefault(username, [])
 
-        tweets[username].append(random_text)
-
-        print tweets[username]
+            tweets[username].append(random_text)
 
     
     except twitter.TwitterError:
-        tweets[username] = ['Please enter a valid public user!']
-        print tweets[username]
+        tweets[username] = ['Please enter a valid Twitter user!']
 
     return jsonify(tweets)
 
