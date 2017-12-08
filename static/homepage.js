@@ -6,7 +6,7 @@ function findsUser(evt) {
 
     var formInputs = {
         'username': $('#username').val(),
-        'chain-size': parseInt($('#chain-size').val())
+        'chain-size': $('#chain-size').val()
     };
 
     $.get('/search_user.json', formInputs, generatesTweets);

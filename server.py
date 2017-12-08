@@ -9,8 +9,6 @@ api = twitter.Api(
 
 app = Flask(__name__)
 
-app.secret_key = os.environ['APP_SECRET_KEY']
-
 #cache tweets with a dict as long as server is not reset
 tweets = {}
 
@@ -30,7 +28,7 @@ def searches_user():
     """
 
     username = request.args.get('username')
-    
+
     size = int(request.args.get('chain-size'))
 
     tweets['username'] = username

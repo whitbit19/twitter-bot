@@ -1,6 +1,11 @@
-from random import choice
+from random import choice, seed
 
 def make_chains(text_string, n):
+    """ Return dictionary of Markov chains with input text.
+
+    A chain consists of a key that is a tuple of n words with
+    a value of a list of word(s) that follow the tuple.
+    """
 
     chains = {}
 
@@ -18,6 +23,11 @@ def make_chains(text_string, n):
 
 
 def make_first_link(chains):
+    """Builds first link. The first link is randomly picked from a list of keys that
+    begin with a capitalized word. 
+
+    The next word is picked randomly from the value of that key/link.
+    """
 
     first_link = []
 
@@ -35,13 +45,12 @@ def make_first_link(chains):
 
 
 def make_text(chains, n):
-    """Return text from chains."""
-    # get random key to start the link
-        # append into words list
-        # look up key in dictionary
-            # get random word within the list
-            # append into words list
-        # evaluate last two words in words[] to find key in dictionary
+    """Return tweet from chains.
+    
+    Make first link and keep linking by checking for keys of last n words,
+    grabbing random words from lists until sentence is too long for tweet or
+    until the last word contains an apostrophe signifying the end of a sentence.
+    """
 
     markov_sentence = make_first_link(chains)
 
@@ -58,4 +67,3 @@ def make_text(chains, n):
             break
 
     return " ".join(markov_sentence)
-
